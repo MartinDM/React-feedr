@@ -1,0 +1,8 @@
+.header {
+  padding: 12px 0;
+  background: rgb(94,94,94);
+background: linear-gradient(90deg, rgba(94,94,94,1) 0%, rgba(94,94,94,1) 66%, rgba(124,124,124,1) 100%);
+  &__logo {
+    margin-left: auto;
+  }
+}

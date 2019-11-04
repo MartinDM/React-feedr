@@ -1,0 +1,22 @@
+// Colours
+
+$pink: #FC60A8;
+$black: #333333;
+$grey: #5E5E5E;
+$grey2: #424242;
+$grey3: #999999;
+$body: $grey2;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 80vw;
+  padding: 12px;
+}
