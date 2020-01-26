@@ -10,13 +10,21 @@ import './Feedr.css';
 
 function Feedr() {
   const state = {
-    name: 'Martin'
-  }
+    name: 'Martin',
+    feeds: [{
+      name: 'HackerNews',
+      url: 'https://jsonplaceholder.typicode.com/posts/10'
+    },
+    {
+      name: 'BBC News',
+      url: 'https://jsonplaceholder.typicode.com/users/10'
+    }
+  ]}
   return (
     <React.Fragment>
       <CssBaseline />
       <div className="feedr-app">
-      <Header />
+      <Header feeds={state.feeds} />
       <Board boardName={state.name} />
     </div>
     </React.Fragment> 

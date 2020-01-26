@@ -1,11 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
 
 export default function Board({boardName}){
   return (
+    <Container>
+    <Grid
+      container
+      direction="row"
+      justify="space-between"
+    > 
     <div className="board">
-      <p>Hello {boardName}</p>
+        <p>Hello {boardName}</p>
     </div>
+    </Grid>
+  </Container>
   )
 }
 
