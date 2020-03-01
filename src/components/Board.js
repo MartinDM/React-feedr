@@ -1,21 +1,36 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
+import Card from './Card'; 
 
-export default function Board({boardName}){
-  return (
-    <Container>
-    <Grid
-      container
-      direction="row"
-      justify="space-between"
-    > 
-    <div className="board">
-        <p>Hello {boardName}</p>
-    </div>
-    </Grid>
-  </Container>
-  )
+export default class Board extends React.Component {
+    constructor(props) {
+        super(props);
+        console.log(props)
+    }
+
+    fetchFeed(id){
+        console.log(id)
+        console.log( this.state.feeds.find( feed => feed.id ));
+    }
+
+    render() {
+        return (
+            <Container>
+            <Grid
+            container
+            direction="row"
+            justify="space-between"
+            > 
+            <div className="board"> 
+            { 
+                this.props.feeds.map( feed => <Card handleClose={ () => this.props.handleClose(feed.id) } key={feed.id} posts={feed.posts} source={feed.source} title={feed.name} /> )
+            }
+            </div>
+            </Grid>
+            </Container>
+        )
+    }
 }
 
 // ******** RULE

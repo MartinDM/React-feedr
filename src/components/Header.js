@@ -1,15 +1,31 @@
 import React from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+
 import "./Header.scss";
 import { FlameIcon } from "../svgs/svgs";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 
-export default function Header({feeds}){
-  const handleChange = feed => event => {
-    console.log('selected', feed);
+/* MUI Components */
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
+import CONFIG from '../config';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
+const useStyles = makeStyles({
+  root: {
+    background: 'white', 
+    color: 'black',
+    padding: '8px 10px',
+    border: `2px solid ${CONFIG.css.colors.pink}`
+  },
+});
+
+export default function Header({feeds}){ 
+  console.log(feeds)
+  const handleChange = event => {
+    console.log(event.target.value);
   };
 
   return (
@@ -22,24 +38,17 @@ export default function Header({feeds}){
           alignItems="center"
         >
         <div className="feed-select">
-        <FormControl>
-        <InputLabel htmlFor="feed-select">Feed</InputLabel>
-        <Select
-          native
-          onChange={handleChange('age')}
-          inputProps={{
-            name: 'age',
-            id: 'feed-select',
-          }}
-        >
-          <option value="" />
-          { 
-            feeds.map( (feed, i) => 
-            <option key={i} value={feed.url}>{feed.name}</option>
-            )
-          }
-        </Select>
-      </FormControl>
+            <select 
+              className='feed-select__list' 
+              >
+              <option value="Feed">Select a feed</option>
+              { 
+                 feeds.map( (feed, i) => {
+                  return <option key={i} value={feed.url}>{feed.name}</option>
+                })
+              }
+            </select>
+            <button>+</button>
         </div>
           <Grid item>
             <div className="header__logo">
