@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import "./Header.scss";
 import { FlameIcon } from "../svgs/svgs";
@@ -22,11 +22,15 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Header({feeds}){ 
-  console.log(feeds)
-  const handleChange = event => {
-    console.log(event.target.value);
-  };
+export default function Header({feeds, handleAdd}){  
+ 
+  
+  const [id, setSelectedId] = useState(0);
+  
+  /* 
+  useEffect( () => {
+    console.log(id)
+  }); */
 
   return (
     <div className="header">
@@ -39,16 +43,18 @@ export default function Header({feeds}){
         >
         <div className="feed-select">
             <select 
-              className='feed-select__list' 
+              className='feed-select__list'
+              onChange={event => setSelectedId(event.target.value)}
               >
               <option value="Feed">Select a feed</option>
-              { 
-                 feeds.map( (feed, i) => {
-                  return <option key={i} value={feed.url}>{feed.name}</option>
+              {  
+                feeds.filter( feed => !feed.active )
+                .map( (feed, i) => {
+                    return <option key={i} value={feed.id}>{feed.name}</option>
                 })
               }
             </select>
-            <button>+</button>
+            <button onClick={ () => handleAdd(id) }>+</button>
         </div>
           <Grid item>
             <div className="header__logo">

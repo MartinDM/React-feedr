@@ -1,13 +1,20 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import Card from './Card'; 
+import Card from './Card';
+import styled from 'styled-components';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { DragDropProvider } from '@devexpress/dx-react-grid-material-ui';
 
 export default class Board extends React.Component {
+    
+    
     constructor(props) {
         super(props);
         console.log(props)
     }
+
+    
 
     fetchFeed(id){
         console.log(id)
@@ -15,6 +22,7 @@ export default class Board extends React.Component {
     }
 
     render() {
+        
         return (
             <Container>
             <Grid
@@ -23,9 +31,10 @@ export default class Board extends React.Component {
             justify="space-between"
             > 
             <div className="board"> 
-            { 
-                this.props.feeds.map( feed => <Card handleClose={ () => this.props.handleClose(feed.id) } key={feed.id} posts={feed.posts} source={feed.source} title={feed.name} /> )
-            }
+                
+                { 
+                this.props.feeds.filter( feed => feed.active ).map( feed => <Card handleClose={ () => this.props.handleClose(feed.id) } key={feed.id} posts={feed.posts} source={feed.source} title={feed.name} /> )
+                } 
             </div>
             </Grid>
             </Container>

@@ -32,52 +32,37 @@ export default class Feedr extends React.Component {
     ]
   }
   this.handleClose = this.handleClose.bind(this);
+  this.handleAdd = this.handleAdd.bind(this);
 }
 
-componentWillMount() {
-  const activeFeeds = this.state.feeds.filter( feed => feed.active); 
-  this.setState({ 
-    activeFeeds: activeFeeds
+
+setFeedActiveStates(feedId, activeState) {
+  this.setState( (prevState, s) => {
+    const feeds = prevState.feeds.map( feed => {
+      if ( feed.id == feedId ) feed.active = activeState;
+      return feed
+    })
+    return { feeds }
   })
 }
 
-componentDidUpdate() {
-  console.log('state now',this.state);
-}
-
-getAvailableFeeds(){
-  this.state.feeds.filter( (feed) => !feed.active );
-}
-
-
 handleClose(id){
-  console.log('closing', id)
-  const feeds = this.state.feeds.map( feed => {
-    if ( feed.id === id ) {
-      feed.active = feed.id === id ? false : feed.active
-    }
-    return feed
-  });
-  this.setState( (prevState, props) => {
-    console.log(prevState, props)
-    const activeFeeds = prevState.feeds.filter( feed => feed.active);
-    return {
-      feeds,
-      activeFeeds
-    }
-  }) 
+  this.setFeedActiveStates(id, false)
 }
 
+handleAdd(id){ 
+  this.setFeedActiveStates(id, true)
+}
 
-  render() {
-    return (
-      <React.Fragment>
-        <CssBaseline />
-        <div className="feedr-app">
-        <Header feeds={this.state.feeds} />
-        <Board handleClose={this.handleClose} feeds={this.state.activeFeeds} boardName={this.state.name} />
-      </div>
-      </React.Fragment> 
+render() {
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <div className="feedr-app">
+      <Header feeds={this.state.feeds} handleAdd={this.handleAdd}  />
+      <Board handleClose={this.handleClose} feeds={this.state.feeds} boardName={this.state.name} />
+    </div>
+    </React.Fragment> 
     )
   };
 }

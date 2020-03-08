@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const Card = (props) => {
- // bring in state using hooks
- // Second arg is function
+  // bring in state using hooks
   const [posts, setPosts] = useState([]);
   const Card = styled.div`
     border: 3px solid grey;
     position: relative;
+    margin: 1em 0;
     padding: 6px;
     h2 {
       text-transform: uppercase;
@@ -20,6 +20,7 @@ const Card = (props) => {
       margin: 0;
       list-style: none;
       li {
+        margin-bottom: 4px;
         a:first-child {
           text-decoration: none;
           font-weight: bold;
@@ -28,8 +29,12 @@ const Card = (props) => {
           background-repeat: no-repeat;
           background-size: 100% 0.2em;
           background-position: 0 75%;
-          transition: background-size 0.25s ease-in;
+          transition: background-size 0.25s ease-in-out;
           padding: 4px;
+          &:hover {
+            background-size: 100%;
+
+          }
         }
       }
       img {
@@ -51,7 +56,9 @@ const Card = (props) => {
       opacity: .5
     }
   `
-
+  // https://css-tricks.com/understanding-react-setstate/
+  
+  
   useEffect(() => {
     axios
       .get(
@@ -75,12 +82,9 @@ const Card = (props) => {
         <ul>  
         { 
           posts.map( (post, i) => (
-            <li handleClick={ () => props.handleClick(post.url)} key={post.id} title={post.name}>
+            <li onClick={ () => props.handleClick(post.url)} key={i} title={post.name}>
               <a href={ post.url }>
               {post.title}
-              </a>
-              <a href={ post.url }>
-              <img src={post.urlToImage} alt={post.title}/>
               </a>
             </li> 
           ))
