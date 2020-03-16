@@ -6,6 +6,15 @@ import styled from 'styled-components';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { DragDropProvider } from '@devexpress/dx-react-grid-material-ui';
 
+const StyledBoard = styled.div`
+    padding: 1em 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, minmax(75px, 350px));
+    grid-gap: 1em; 
+`
+
 export default class Board extends React.Component {
     
     
@@ -30,12 +39,12 @@ export default class Board extends React.Component {
             direction="row"
             justify="space-between"
             > 
-            <div className="board"> 
+            <StyledBoard> 
                 
                 { 
-                this.props.feeds.filter( feed => feed.active ).map( feed => <Card handleClose={ () => this.props.handleClose(feed.id) } key={feed.id} posts={feed.posts} source={feed.source} title={feed.name} /> )
+                this.props.feeds.filter( feed => feed.active ).map( feed => <Card handleClose={ () => this.props.handleClose(feed.id) } key={feed.id} posts={feed.posts} feed={feed}  /> )
                 } 
-            </div>
+            </StyledBoard>
             </Grid>
             </Container>
         )

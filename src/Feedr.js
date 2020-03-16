@@ -20,14 +20,26 @@ export default class Feedr extends React.Component {
         name: 'HackerNews', 
         source: 'hacker-news', 
         active: false,
-        url: 'https://jsonplaceholder.typicode.com/posts/10',
+        original: 'https://news.ycombinator.com'
       },
       {
         id: 2,
         name: 'BBC News',
         source: 'bbc-news',
         active: true,
-        url: 'https://jsonplaceholder.typicode.com/users/10',
+        original: 'https://bbc.co.uk/news'
+      },
+      {
+        id: 3,
+        name: 'Science',
+        category: 'health',
+        active: false
+      },
+      {
+        id: 4,
+        name: 'Technology',
+        category: 'technology',
+        active: false
       }
     ]
   }
