@@ -3,15 +3,16 @@ import axios from 'axios';
 
 import "./Header.scss";
 import { FlameIcon } from "../svgs/svgs";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
 
 /* MUI Components */
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+import Weather from './Weather';
 
 const useStyles = makeStyles({
   root: {
@@ -24,22 +25,7 @@ const useStyles = makeStyles({
 
 export default function Header({feeds, handleAdd}){   
   
-  const [id, setSelectedId] = useState(0);
-  const [weather, setWeather] = useState('Loading');
-  
-  useEffect((  ) => {
-    // Form url based on category key on feed
-     
-    axios
-      .get(
-        // https://openweathermap.org/api
-        //` apiKey=${process.env.REACT_APP_WEATHER_KEY}`
-      )
-      .then( ({ data } ) => {     
-        console.log(data)  
-        //setWeather(data...) 
-      });
-  }, []);
+  const [id, setSelectedId] = useState(0); 
 
   return (
     <div className="header">
@@ -66,11 +52,8 @@ export default function Header({feeds, handleAdd}){
             <button onClick={ () => handleAdd(id) }><AddIcon /></button>
         </div>
           <Grid item>
-            <div className="header__location">
-              Location
-              <div className="location-weather">
-
-              </div>
+            <div className="header__location">  
+              <Weather />
             </div>
           </Grid>
           <Grid item>
