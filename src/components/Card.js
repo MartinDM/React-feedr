@@ -3,7 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+ 
 const Card = (props) => { 
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

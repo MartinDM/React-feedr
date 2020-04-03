@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 import "./Header.scss";
 import { FlameIcon } from "../svgs/svgs";
