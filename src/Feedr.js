@@ -6,6 +6,7 @@ import Board from './components/Board';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import 'typeface-roboto';
+import 'typeface-rambla';
 import './Feedr.scss';
  
 export default class Feedr extends React.Component {

@@ -51,9 +51,7 @@ export default function Header({feeds, handleAdd}){
             <button onClick={ () => handleAdd(id) }><AddIcon /></button>
         </div>
           <Grid item>
-            <div className="header__location">  
-              <Weather />
-            </div>
+            <Weather /> 
           </Grid>
           <Grid item>
             <div className="header__logo">
