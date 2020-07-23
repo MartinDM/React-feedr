@@ -4,17 +4,7 @@ $pink: #FC60A8;
   background: rgb(94,94,94);
 background: linear-gradient(90deg, rgba(94,94,94,1) 0%, rgba(94,94,94,1) 66%, rgba(124,124,124,1) 100%);
   &__logo {
-    display: flex;
     margin-left: auto;
-    font-family: "Rambla";
-    color: white;
-    font-size: 18px;
-    cursor: default;
-    padding: 4px 0;
     border-left: 2px solid $pink;
-    svg {
-      margin: 0 8px;
-      padding: 2px;
-    }
   }
 }

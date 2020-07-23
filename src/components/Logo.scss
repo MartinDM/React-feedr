@@ -1,0 +1,17 @@
+.logo {
+    font-family: "Rambla", sans-serif;
+    color: white;
+    display: flex;
+    font-size: 18px;
+    align-items: center;
+    padding: 4px 0;
+    text-transform: lowercase;
+    p { margin: 0; }
+    cursor: default;
+    svg {
+      position: relative;
+      top: -4px;
+      margin: 0 8px;
+      padding-bottom: 3px;
+    }
+}

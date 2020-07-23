@@ -1,0 +1,31 @@
+.feedr-app {
+  &.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: rgb(252,96,168);
+    background-image:  linear-gradient(3200deg, #FC60A8 40%, rgba(255,255,255,0.9) 70%);
+    .loading-content {
+      display: flex;
+      flex-direction: column;
+      padding: 0 12px;
+    }
+    .logo {
+      font-size: 65px;
+      margin-bottom: 12px;
+      svg {
+        width: 50px;
+        height: auto;
+        margin: 0px 10px;
+      }
+    }
+    .svg-loaders-svg {
+      width: 50px;
+      height: auto;
+      margin: 0 auto;
+      opacity: .7
+    }
+  }
+}

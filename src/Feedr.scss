@@ -2,6 +2,13 @@
 $pink: #FC60A8;
 $dark-grey: #333333;
 
+.feedr-app {
+  background: white;
+  background-image: radial-gradient(#cecece 1px, transparent 0);
+  background-size: 30px 30px;
+  background-position: -19px -19px;
+}
+
 select { 
   font-weight: bold;
   margin: 0;      
@@ -42,7 +49,7 @@ outline: none;
 
 .feed-select {
   display: flex;
-  box-shadow: -5px 4px #545454;
+  
   button {
     border: none;
     outline: none;

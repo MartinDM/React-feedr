@@ -10,14 +10,14 @@ const Card = (props) => {
   const feed = props.feed;
   const isCategory = feed.hasOwnProperty('category');
 
-  // Styled components
+  // Styled component
   const Card = styled.div`
-  box-shadow: inset 0px -2px 7px 0px rgba(55,55,55,0.4);
+  box-shadow: -2px 7px #afafaf, inset 0px -8px 4px rgba(255,255,255, .7);
   border: 3px solid lightgrey;
+  background: white;
   position: relative;
-  border-radius: 6px;
   padding: 8px;
-  overflow: scroll;
+  overflow-x: scroll;
   .fadeIn {
     opacity: 1;
   }
@@ -68,13 +68,9 @@ const Card = (props) => {
     }
   `
   const StyledLinearProgress = styled(LinearProgress)`  
+    transition: opacity 1s ease-out;
     &.fadeOut { 
-      transition: opacity 2s ease-out;
       opacity: 0;
-    }
-    &.fadeIn {
-      transition: opacity 2s ease-out;
-      opacity: 1;
     }
   ` 
   
@@ -100,7 +96,7 @@ const Card = (props) => {
 
   return (
       <Card className={ `fadeIn card__${feed.name.toLowerCase().replace(' ', '-') }`}>
-      <StyledLinearProgress color="secondary" className={ !isLoading ? 'fadeOut' : 'fadeIn' } />
+      <StyledLinearProgress color="secondary" className={ !isLoading ? 'fadeOut' : '' } />
       <StyledHighlightOffIcon onClick={ props.handleClose }  />
         <h2>
         { feed.name }
@@ -108,8 +104,8 @@ const Card = (props) => {
         <ul className={ !isLoading ? 'fadeIn' : 'fadeOut'}>  
         { 
           posts.map( (post, i) => (
-            <li onClick={ () => props.handleClick(post.url)} key={i} title={post.name}>
-              <a href={ post.url }>
+            <li key={i} title={post.name}>
+              <a href={ post.url } target="_blank">
               { post.title }
               </a>
             </li> 

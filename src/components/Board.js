@@ -5,6 +5,7 @@ import Card from './Card';
 import styled from 'styled-components';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { DragDropProvider } from '@devexpress/dx-react-grid-material-ui';
+import reactDnd from 'react-dnd';
 
 const StyledBoard = styled.div`
     padding: 1em 0;
@@ -15,23 +16,16 @@ const StyledBoard = styled.div`
     grid-gap: 1em; 
 `
 
-export default class Board extends React.Component {
-    
-    
+export default class Board extends React.Component {    
     constructor(props) {
         super(props);
         console.log(props)
     }
-
-    
-
     fetchFeed(id){
         console.log(id)
         console.log( this.state.feeds.find( feed => feed.id ));
     }
-
     render() {
-        
         return (
             <Container>
             <Grid
@@ -40,10 +34,15 @@ export default class Board extends React.Component {
             justify="space-between"
             > 
             <StyledBoard> 
-                
                 { 
-                this.props.feeds.filter( feed => feed.active ).map( feed => <Card handleClose={ () => this.props.handleClose(feed.id) } key={feed.id} posts={feed.posts} feed={feed}  /> )
-                } 
+                this.props.feeds.filter( feed => feed.active ).map( feed => 
+                    <Card 
+                        handleClose={ () => this.props.handleClose(feed.id) }
+                        key={feed.id}
+                        posts={feed.posts}
+                        feed={feed} 
+                    />
+                )} 
             </StyledBoard>
             </Grid>
             </Container>

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import axios from 'axios';
 import styled from 'styled-components';
-import RefreshIcon from '@material-ui/icons/Refresh';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 import "./Weather.scss";
 const Weather = (props) => {
   
@@ -20,6 +21,7 @@ const Weather = (props) => {
   const [ weather, setWeather ] = useState({})
   let [ position, setPosition ] = useState({})
   const [ isLoaded, setLoaded ] = useState(false)
+  const [ readingTime, setReadingTime ] = useState();
 
   useEffect( () => {
       fetchWeather();
@@ -33,7 +35,7 @@ const Weather = (props) => {
     });
   }
 
-  const fetchWeather = async () => {
+  const fetchWeather = async () => { 
     position = await getPosition();
     setPosition(position);
     const { latitude, longitude } = position.coords;
@@ -42,39 +44,38 @@ const Weather = (props) => {
           .then( res => res.data )
           .then( res => { 
             const weather = res;
-            console.log(weather);
+            weather.formattedTime = moment.unix(weather.dt).startOf('minute').fromNow();
+            weather.icon = `http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
             setWeather(weather);
             setLoaded(true);
           }) 
   };
 
-  const handleRefresh = () => {
-    console.log('refresh');
-  }
-
-  const weatherIcon = isLoaded ? weather.weather[0].icon : null;
-
   return (
-      <div className="weather">
-      { !isLoaded &&
-       <StyledWeather>
+    <div className="weather"> 
+    {  
+       !isLoaded ? (
+        <StyledWeather>
           <p>Fetching weather...</p>
         </StyledWeather>
-      }
-      { isLoaded &&
-       <StyledWeather>
-          <p> Weather in {weather.name} </p>
+      ) : (
+        <StyledWeather>
+          <p><LocationOnIcon fontSize="small" /> {weather.name}</p> 
           <div className="weather__temperatures">
               <span><strong>{weather.main.temp}&deg; </strong></span>
               <div className="weather__high-low">
-                <span>{weather.main.temp_max}&deg; </span>
-                <span>{weather.main.temp_min}&deg; </span>
+                <span className="weather__label">High:</span>
+                {weather.main.temp_max}&deg; 
+                <span className="weather__label">Low:</span>
+                {weather.main.temp_min}&deg;
               </div>
-              <img src={`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`} alt=""/>
+              <img src={weather.icon} alt=""/>
           </div>
-       </StyledWeather>
-      }
-      </div>
+          <p>{weather.formattedTime}</p>
+        </StyledWeather>
+     )
+    }
+    </div>
   )
 }
 export default Weather;

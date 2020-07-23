@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import Weather from './Weather';
+import Logo from './Logo';
 
 const useStyles = makeStyles({
   root: {
@@ -53,11 +54,8 @@ export default function Header({feeds, handleAdd}){
           <Grid item>
             <Weather /> 
           </Grid>
-          <Grid item>
-            <div className="header__logo">
-              <FlameIcon />
-              Feedr
-            </div>
+          <Grid item className="header__logo">
+             <Logo />
           </Grid>
         </Grid>
       </Container>

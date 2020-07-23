@@ -1,10 +1,9 @@
 import React from 'react';
 import Header from './components/Header';
 import Board from './components/Board';
-
+import Loading from './components/Loading';
 // Material UI
 import CssBaseline from '@material-ui/core/CssBaseline';
-
 import 'typeface-roboto';
 import 'typeface-rambla';
 import './Feedr.scss';
@@ -15,6 +14,7 @@ export default class Feedr extends React.Component {
     super(props)
     // Only use this.state here in the constructor as the class is init'd here already; otherwise use setState()
     this.state = {
+      isLoading: true,
       name: 'Martin',
       feeds: [{
         id: 1,
@@ -48,34 +48,52 @@ export default class Feedr extends React.Component {
   this.handleAdd = this.handleAdd.bind(this);
 }
 
+componentDidMount() {
+/*   setTimeout( () => {
+    this.setState({ isLoading: false })
+  }, 10000) */
+}
 
-setFeedActiveStates(feedId, activeState) {
-  this.setState( (prevState, s) => {
-    const feeds = prevState.feeds.map( feed => {
-      if ( feed.id == feedId ) feed.active = activeState;
+componentWillUnmount() {
+  // clearTimeout(timer);
+}
+
+
+setActiveFeeds(feedId, activeState) {
+  this.setState( (prevState) => {
+    const feeds = prevState.feeds.map( feed => { 
+      feed.active = feed.active || feed.id == feedId;
       return feed
     })
-    return { feeds }
+    return feeds 
   })
 }
 
 handleClose(id){
-  this.setFeedActiveStates(id, false)
+  this.setActiveFeeds(id, false)
 }
 
 handleAdd(id){ 
-  this.setFeedActiveStates(id, true)
+  this.setActiveFeeds(id, true)
 }
 
-render() {
+render() { 
+ 
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
-      <div className="feedr-app">
-      <Header feeds={this.state.feeds} handleAdd={this.handleAdd}  />
-      <Board handleClose={this.handleClose} feeds={this.state.feeds} boardName={this.state.name} />
-    </div>
-    </React.Fragment> 
-    )
-  };
+      <div className={ `feedr-app ${this.isLoading ? "loading" : "" }`}>
+      {
+        this.isLoading ? <Loading /> 
+        : (
+          <>
+            <Header feeds={this.state.feeds} handleAdd={this.handleAdd}  />
+            <Board handleClose={this.handleClose} feeds={this.state.feeds} boardName={this.state.name} />
+          </>
+          )
+      }
+      </div>
+    </>
+  )
+  }
 }
