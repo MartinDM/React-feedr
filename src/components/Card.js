@@ -81,7 +81,7 @@ const Card = (props) => {
                       `sources=${feed.source}`
     axios
       .get(
-        `http://newsapi.org/v2/top-headlines?${sourceUrl}&apiKey=${process.env.REACT_APP_NEWS_KEY}`
+        `https://newsapi.org/v2/top-headlines?${sourceUrl}&apiKey=${process.env.REACT_APP_NEWS_KEY}`
       )
       .then( ({ data } ) => {
         console.log(data.articles);
