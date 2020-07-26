@@ -55,20 +55,24 @@ const Weather = (props) => {
     <div className="weather"> 
     {  
        !isLoaded ? (
-        <StyledWeather>
+        <StyledWeather classNamee="weather">
           <p>Fetching weather...</p>
         </StyledWeather>
       ) : (
         <StyledWeather>
           <p><LocationOnIcon fontSize="small" /> {weather.name}</p> 
           <div className="weather__temperatures">
+         
               <span><strong>{weather.main.temp}&deg; </strong></span>
-              <div className="weather__high-low">
-                <span className="weather__label">High:</span>
-                {weather.main.temp_max}&deg; 
-                <span className="weather__label">Low:</span>
-                {weather.main.temp_min}&deg;
-              </div>
+              <ul className="weather__high-low">
+               <li>
+               <span className="weather__label">High: </span>
+              {weather.main.temp_max}&deg; </li>
+           <li>
+               <span className="weather__label">Low: </span>
+               {weather.main.temp_min}&deg;
+           </li>
+          </ul>
               <img src={weather.icon} alt=""/>
           </div>
           <p>{weather.formattedTime}</p>

@@ -1,0 +1,11 @@
+@import "../scss/variables.scss";
+
+.board {
+  display: grid;
+  grid-gap: 1em;
+  grid-template-rows: repeat(2, minmax(75px, 200px));
+  @media (min-width: $md) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(2, minmax(75px, 350px));
+}
+}

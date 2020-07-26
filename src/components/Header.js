@@ -25,7 +25,22 @@ const useStyles = makeStyles({
 
 export default function Header({feeds, handleAdd}){   
   
-  const [id, setSelectedId] = useState(0); 
+  const [id, setSelectedId] = useState();
+  const [isClean, setClean] = useState(true);
+  const [activeFeed, setActiveFeed ] = useState()
+
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => { 
+    setClean(id ? false : true)
+    console.log('clean is now', isClean)
+  });
+
+  const selectOptions = feeds.map( feed => ({
+        ...feed,
+        value: feed.id,
+        label: feed.name
+  })).filter( feed => !feed.active );
+                         
 
   return (
     <div className="header">
@@ -36,20 +51,30 @@ export default function Header({feeds, handleAdd}){
           justify="space-between"
           alignItems="center"
         >
+       
         <div className="feed-select">
             <select 
               className='feed-select__list'
-              onChange={event => setSelectedId(event.target.value)}
-              >
-              <option value="Feed">Select a news source</option>
-              {  
+              value={ isClean ? '' : id }
+              onChange={ event => {
+                  setSelectedId(event.target.value);
+                  console.log(event.target.value);
+                }
+              }>
+              <option>Select a news source</option>
+              {
                 feeds.filter( feed => !feed.active )
                 .map( (feed, i) => {
                     return <option key={i} value={feed.id}>{feed.name}</option>
                 })
               }
             </select>
-            <button onClick={ () => handleAdd(id) }><AddIcon /></button>
+            <button onClick={ () => {
+              setSelectedId()
+              handleAdd(id);
+            }
+          }>
+            <AddIcon /></button>
         </div>
           <Grid item>
             <Weather /> 

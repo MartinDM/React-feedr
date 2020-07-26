@@ -16,7 +16,8 @@ export default class Feedr extends React.Component {
     this.state = {
       isLoading: true,
       name: 'Martin',
-      feeds: [{
+      feeds: [
+      {
         id: 1,
         name: 'HackerNews', 
         source: 'hacker-news', 
@@ -27,7 +28,7 @@ export default class Feedr extends React.Component {
         id: 2,
         name: 'BBC News',
         source: 'bbc-news',
-        active: true,
+        active: false,
         original: 'https://bbc.co.uk/news'
       },
       {
@@ -49,32 +50,33 @@ export default class Feedr extends React.Component {
 }
 
 componentDidMount() {
-/*   setTimeout( () => {
-    this.setState({ isLoading: false })
-  }, 10000) */
+  this.setState({
+    isLoading: false
+  })
 }
 
 componentWillUnmount() {
   // clearTimeout(timer);
 }
 
-
-setActiveFeeds(feedId, activeState) {
-  this.setState( (prevState) => {
-    const feeds = prevState.feeds.map( feed => { 
-      feed.active = feed.active || feed.id == feedId;
+updateActiveFeeds(feedId, active) {
+    const feeds = this.state.feeds.map( feed => {
+      const match = feedId == feed.id;
+      feed.justAdded = match;
+      if ( match ) feed.active = active;
       return feed
     })
-    return feeds 
-  })
-}
+    // Ensure latest feed is first in the list to be iterated
+    console.log('Updated', feeds)
+    this.setState({feeds})
+  }
 
 handleClose(id){
-  this.setActiveFeeds(id, false)
+  this.updateActiveFeeds(id, false)
 }
 
-handleAdd(id){ 
-  this.setActiveFeeds(id, true)
+handleAdd(id){
+  this.updateActiveFeeds(id, true)
 }
 
 render() { 
@@ -82,12 +84,12 @@ render() {
   return (
     <>
       <CssBaseline />
-      <div className={ `feedr-app ${this.isLoading ? "loading" : "" }`}>
+      <div className={ `feedr-app ${this.state.isLoading ? "loading" : "" }`}>
       {
         this.isLoading ? <Loading /> 
         : (
           <>
-            <Header feeds={this.state.feeds} handleAdd={this.handleAdd}  />
+            <Header feeds={this.state.feeds} handleAdd={this.handleAdd} />
             <Board handleClose={this.handleClose} feeds={this.state.feeds} boardName={this.state.name} />
           </>
           )

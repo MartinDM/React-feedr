@@ -1,4 +1,5 @@
-$pink: #FC60A8;
+@import '../scss/variables.scss';
+
 .header {
   padding: 12px 0;
   background: rgb(94,94,94);
@@ -7,4 +8,9 @@ background: linear-gradient(90deg, rgba(94,94,94,1) 0%, rgba(94,94,94,1) 66%, rg
     margin-left: auto;
     border-left: 2px solid $pink;
   }
+
+  @media( min-width: $md ) {
+    max-width: 300px;
+  }
+
 }
