@@ -74,39 +74,60 @@ const Card = (props) => {
     }
   ` 
   
-  useEffect((  ) => {
-    // Form url based on category key on feed
-    const sourceUrl = isCategory ?
-                      `country=gb&category=${feed.category}` :
-                      `sources=${feed.source}`
+  useEffect( () => {
+    // Construct post structure from fetched data
+    if ( feed.source === "reddit" ){ 
     axios
       .get(
-        `https://newsapi.org/v2/top-headlines?${sourceUrl}&apiKey=${process.env.REACT_APP_NEWS_KEY}`
+        `https://www.reddit.com/r/reactjs.json?count=50`,
       )
-      .then( ({ data } ) => {
-        console.log(data.articles);
+      .then( ( response ) => {
+        const stories = response.data.data.children.map( story => {
+          const { title, url } = story.data;
+          return { name: title, url };
+        })
         setTimeout( () => {
-          setPosts(data.articles);
+          setPosts(stories);
           setIsLoading(false)
         }, 800)
       });
+      return
+    } else {
+    // Form url based on category key on feed
+    const categoryQuery = isCategory ? `?category=${feed.category}` : ``;
+    console.log(categoryQuery)
+    axios
+      .get(
+        `https://api.cognitive.microsoft.com/bing/v7.0/news/${categoryQuery}`,
+        {
+          headers: {
+            'ocp-apim-subscription-key': `${process.env.REACT_APP_NEWS_KEY}`
+          }
+        }
+      )
+      .then( ({ data } ) => {
+        setTimeout( () => {
+          setPosts(data.value);
+          setIsLoading(false)
+        }, 800)
+      });
+      return;
+    }
   }, []);
- 
-   
 
   return (
       <Card className={ `fadeIn card__${feed.name.toLowerCase().replace(' ', '-') }`}>
       <StyledLinearProgress color="secondary" className={ !isLoading ? 'fadeOut' : '' } />
       <StyledHighlightOffIcon onClick={ props.handleClose }  />
         <h2>
-        { feed.name }
+        { feed.name + (feed.icon ? feed.icon : '') }
         </h2> 
         <ul className={ !isLoading ? 'fadeIn' : 'fadeOut'}>  
         { 
           posts.map( (post, i) => (
             <li key={i} title={post.name}>
               <a href={ post.url } target="_blank">
-              { post.title }
+              { post.name }
               </a>
             </li> 
           ))

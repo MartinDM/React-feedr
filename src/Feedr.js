@@ -19,28 +19,30 @@ export default class Feedr extends React.Component {
       feeds: [
       {
         id: 1,
-        name: 'HackerNews', 
-        source: 'hacker-news', 
+        name: 'Reddit: r/ReactJS',
+        icon: '🚀',
+        source: 'reddit', 
         active: false,
-        original: 'https://news.ycombinator.com'
+        original: 'https://www.reddit.com/r/reactjs.json?count=50'
       },
       {
         id: 2,
-        name: 'BBC News',
-        source: 'bbc-news',
+        name: 'Top News stories',
+        source: 'bing-news',
         active: false,
-        original: 'https://bbc.co.uk/news'
+        category: 'uk',
+        original: 'https://www.bing.com/news'
       },
       {
         id: 3,
-        name: 'Science',
-        category: 'health',
+        name: 'Technology',
+        category: 'ScienceAndTechnology',
         active: false
       },
       {
         id: 4,
-        name: 'Technology',
-        category: 'technology',
+        name: 'Sport',
+        category: 'sports',
         active: false
       }
     ]
