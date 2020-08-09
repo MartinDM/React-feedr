@@ -18,6 +18,15 @@ const Card = (props) => {
   position: relative;
   padding: 8px;
   overflow-x: scroll;
+  .score {
+    background: #e8e8e8;
+    color: #333333;
+    border-radius: 2px;
+    padding: 4px 5px;
+    font-size: 11px;
+    display: inline-block;
+    margin: 3px; 
+  }
   .fadeIn {
     opacity: 1;
   }
@@ -34,7 +43,7 @@ const Card = (props) => {
       opacity: 0;
       li {
         margin-bottom: 4px;
-        a:first-child {
+        a  {
           text-decoration: none;
           font-weight: bold;
           color: #333;
@@ -83,19 +92,18 @@ const Card = (props) => {
       )
       .then( ( response ) => {
         const stories = response.data.data.children.map( story => {
-          const { title, url } = story.data;
-          return { name: title, url };
+          const { title, url, score } = story.data;
+          return { name: title, url, score };
         })
         setTimeout( () => {
           setPosts(stories);
-          setIsLoading(false)
+          setIsLoading(false);
         }, 800)
       });
       return
     } else {
     // Form url based on category key on feed
     const categoryQuery = isCategory ? `?category=${feed.category}` : ``;
-    console.log(categoryQuery)
     axios
       .get(
         `https://api.cognitive.microsoft.com/bing/v7.0/news/${categoryQuery}`,
@@ -125,10 +133,14 @@ const Card = (props) => {
         <ul className={ !isLoading ? 'fadeIn' : 'fadeOut'}>  
         { 
           posts.map( (post, i) => (
-            <li key={i} title={post.name}>
-              <a href={ post.url } target="_blank">
+            <li key={i}>
+            { post.score ? (
+              <span className="score">🔥{post.score} </span>
+            ) : ''
+            }
+            <a href={ post.url } target="_blank">
               { post.name }
-              </a>
+            </a> 
             </li> 
           ))
         }

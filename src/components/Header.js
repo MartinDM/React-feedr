@@ -31,8 +31,7 @@ export default function Header({feeds, handleAdd}){
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => { 
-    setClean(id ? false : true)
-    console.log('clean is now', isClean)
+    setClean(id ? false : true);
   });
 
   const selectOptions = feeds.map( feed => ({
@@ -58,7 +57,6 @@ export default function Header({feeds, handleAdd}){
               value={ isClean ? '' : id }
               onChange={ event => {
                   setSelectedId(event.target.value);
-                  console.log(event.target.value);
                 }
               }>
               <option>Select a news source</option>

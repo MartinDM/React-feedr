@@ -22,7 +22,7 @@ export default class Feedr extends React.Component {
         name: 'Reddit: r/ReactJS',
         icon: '🚀',
         source: 'reddit', 
-        active: false,
+        active: true,
         original: 'https://www.reddit.com/r/reactjs.json?count=50'
       },
       {
