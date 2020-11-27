@@ -2,9 +2,18 @@
 
 .weather  {  
   margin-bottom: 12px;
+  &--failed {
+    display: flex;
+    align-items: center;
+  }
+  svg {
+    cursor: pointer;
+    display: inline-block;
+  }
   p {
     color: white; 
-     font-size: 11px;
+    font-size: 11px;
+    display: inline;
   } 
   strong {
     font-size: 32px;

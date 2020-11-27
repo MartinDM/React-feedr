@@ -57,10 +57,6 @@ componentDidMount() {
   })
 }
 
-componentWillUnmount() {
-  // clearTimeout(timer);
-}
-
 updateActiveFeeds(feedId, active) {
     const feeds = this.state.feeds.map( feed => {
       const match = feedId == feed.id;

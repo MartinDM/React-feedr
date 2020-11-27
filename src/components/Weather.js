@@ -3,12 +3,14 @@ import moment from 'moment';
 import axios from 'axios';
 import styled from 'styled-components';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import ReloadIcon from '@material-ui/icons/Cached';
 import "./Weather.scss";
+const CORS_PROXY='https://cors-anywhere.herokuapp.com/';
+
 const Weather = (props) => {
   
   const StyledWeather = styled.div`
   color: #FC60A8;
-  min-height: 75px;
   padding: 10px;
   position: relative;
   border-radius: 6px;
@@ -18,15 +20,16 @@ const Weather = (props) => {
   img { padding: 0 14px; padding-right: 14px; height: 65px; }
   `
 
+  /*  Hooks and vars */
   const [ weather, setWeather ] = useState({})
   let [ position, setPosition ] = useState({})
   const [ isLoaded, setLoaded ] = useState(false)
-  const [ readingTime, setReadingTime ] = useState();
+  const [ apiFailed, setApiFailed ] = useState(false);
+  let weatherMessage = 'Fetching weather...';
+  let reloadButton;
 
   useEffect( () => {
       fetchWeather();
-      console.log(weather);
-    // only runs when component mounts
   }, [])
 
   const getPosition = async () => {
@@ -35,49 +38,69 @@ const Weather = (props) => {
     });
   }
 
-  const fetchWeather = async () => { 
+  const fetchWeather = async () => {
     position = await getPosition();
     setPosition(position);
+    setApiFailed(false);
+    const isDevelopment = process.env.NODE_ENV === 'development';
     const { latitude, longitude } = position.coords;
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_KEY}&units=metric`;
-    await axios(weatherUrl)
-          .then( res => res.data )
-          .then( res => { 
-            const weather = res;
-            weather.formattedTime = moment.unix(weather.dt).startOf('minute').fromNow();
-            weather.icon = `http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
-            setWeather(weather);
-            setLoaded(true);
-          }) 
+    // Use a proxy for CORS when running locally
+    const weatherUrl = `${isDevelopment ? CORS_PROXY : '' }https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_KEY}&units=metric`;
+    try {
+       await axios({
+        url: weatherUrl,
+        timeout: 5000
+      })
+      .then( res => {
+        const weather = res.data;
+        weather.formattedTime = moment.unix(weather.dt).startOf('minute').fromNow();
+        weather.icon = `http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
+        setWeather(weather);
+        setLoaded(true);
+      })
+    } catch (err) {
+      setApiFailed(true);
+      return;
+    }
+    setLoaded(true);
   };
 
+  const handleReload = () => {
+    setApiFailed(false);
+    fetchWeather();
+  }
+
+  /* Create reload button and message if Weather API response failed */
+  if (apiFailed) {
+    reloadButton = <ReloadIcon onClick={ () =>  handleReload() } />
+    weatherMessage = 'Weather is unavailable right now';
+  } 
+
   return (
-    <div className="weather"> 
-    {  
-       !isLoaded ? (
-        <StyledWeather classNamee="weather">
-          <p>Fetching weather...</p>
-        </StyledWeather>
-      ) : (
-        <StyledWeather>
-          <p><LocationOnIcon fontSize="small" /> {weather.name}</p> 
-          <div className="weather__temperatures">
-         
-              <span><strong>{weather.main.temp}&deg; </strong></span>
-              <ul className="weather__high-low">
-               <li>
-               <span className="weather__label">High: </span>
-              {weather.main.temp_max}&deg; </li>
-           <li>
-               <span className="weather__label">Low: </span>
-               {weather.main.temp_min}&deg;
-           </li>
-          </ul>
-              <img src={weather.icon} alt=""/>
-          </div>
-          <p>{weather.formattedTime}</p>
-        </StyledWeather>
-     )
+    <div class="weather">
+    { !isLoaded ? 
+      <StyledWeather className="weather--failed">
+         <p>{ weatherMessage }</p> 
+         { reloadButton }
+      </StyledWeather>
+        : 
+      <StyledWeather>
+        <p><LocationOnIcon fontSize="small" /> {weather.name}</p> 
+        <div className="weather__temperatures">
+            <span><strong>{weather.main.temp}&deg; </strong></span>
+            <ul className="weather__high-low">
+              <li>
+              <span className="weather__label">High: </span>
+            {weather.main.temp_max}&deg; </li>
+              <li>
+              <span className="weather__label">Low: </span>
+              {weather.main.temp_min}&deg;
+            </li>
+            </ul>
+            <img src={weather.icon} alt=""/>
+        </div>
+        <p>{weather.formattedTime}</p>
+      </StyledWeather>
     }
     </div>
   )
