@@ -3,9 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Card from './Card';
 import styled from 'styled-components';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { DragDropProvider } from '@devexpress/dx-react-grid-material-ui';
-import reactDnd from 'react-dnd';
 import "./Board.scss";
 
 const StyledBoard = styled.div`

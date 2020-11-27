@@ -14,22 +14,12 @@ import AddIcon from '@material-ui/icons/Add';
 import Weather from './Weather';
 import Logo from './Logo';
 
-const useStyles = makeStyles({
-  root: {
-    background: 'white', 
-    color: 'black',
-    padding: '10px',
-    border: `2px solid #FC60A8`
-  },
-});
-
 export default function Header({feeds, handleAdd}){   
   
   const [id, setSelectedId] = useState();
   const [isClean, setClean] = useState(true);
   const [activeFeed, setActiveFeed ] = useState()
 
-  // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => { 
     setClean(id ? false : true);
   });

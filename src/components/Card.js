@@ -10,7 +10,15 @@ const Card = (props) => {
   const feed = props.feed;
   const isCategory = feed.hasOwnProperty('category');
 
-  // Styled component
+  const StyledScore = styled.span`
+  background: #e8e8e8;
+  color: #333333;
+  border-radius: 2px;
+  padding: 4px 5px;
+  font-size: 11px;
+  display: inline-block;
+  margin: 3px; 
+  `
   const Card = styled.div`
   box-shadow: -2px 7px #afafaf, inset 0px -8px 4px rgba(255,255,255, .7);
   border: 3px solid lightgrey;
@@ -18,15 +26,6 @@ const Card = (props) => {
   position: relative;
   padding: 8px;
   overflow-x: scroll;
-  .score {
-    background: #e8e8e8;
-    color: #333333;
-    border-radius: 2px;
-    padding: 4px 5px;
-    font-size: 11px;
-    display: inline-block;
-    margin: 3px; 
-  }
   .fadeIn {
     opacity: 1;
   }
@@ -55,7 +54,6 @@ const Card = (props) => {
           padding: 4px;
           &:hover {
             background-size: 100%;
-            
           }
         }
       }
@@ -81,8 +79,8 @@ const Card = (props) => {
     &.fadeOut { 
       opacity: 0;
     }
-  ` 
-  
+  `
+
   useEffect( () => {
     // Construct post structure from fetched data
     if ( feed.source === "reddit" ){ 
@@ -124,7 +122,7 @@ const Card = (props) => {
   }, []);
 
   return (
-      <Card className={ `fadeIn card__${feed.name.toLowerCase().replace(' ', '-') }`}>
+      <Card data-testid="card" className={ `fadeIn card__${feed.name.toLowerCase().replace(' ', '-') }`}>
       <StyledLinearProgress color="secondary" className={ !isLoading ? 'fadeOut' : '' } />
       <StyledHighlightOffIcon onClick={ props.handleClose }  />
         <h2>
@@ -135,7 +133,7 @@ const Card = (props) => {
           posts.map( (post, i) => (
             <li key={i}>
             { post.score ? (
-              <span className="score">🔥{post.score} </span>
+              <StyledScore>🔥{post.score} </StyledScore>
             ) : ''
             }
             <a href={ post.url } target="_blank">
