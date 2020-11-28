@@ -26,20 +26,17 @@ const Card = (props) => {
   position: relative;
   padding: 8px;
   overflow-x: scroll;
-  .fadeIn {
-    opacity: 1;
-  }
   h2 {
     text-transform: uppercase;
     letter-spacing: -1px;
-    margin-top: 4px;
+    margin: 0px 0px 14px;
+    border-bottom: 2px solid #f1f1f1;
   }
   ul {
     padding: 0;
     margin: 0;
     list-style: none;
       transition: opacity .5s ease-in-out;
-      opacity: 0;
       li {
         margin-bottom: 4px;
         a  {
@@ -74,11 +71,9 @@ const Card = (props) => {
       opacity: .5
     }
   `
-  const StyledLinearProgress = styled(LinearProgress)`  
-    transition: opacity 1s ease-out;
-    &.fadeOut { 
-      opacity: 0;
-    }
+  const StyledLinearProgress = styled(LinearProgress)`
+     margin-bottom: 5px;
+     transition: all 0.5s ease-in;
   `
 
   useEffect( () => {
@@ -122,8 +117,8 @@ const Card = (props) => {
   }, []);
 
   return (
-      <Card data-testid="card" className={ `fadeIn card__${feed.name.toLowerCase().replace(' ', '-') }`}>
-      <StyledLinearProgress color="secondary" className={ !isLoading ? 'fadeOut' : '' } />
+      <Card data-testid="card" className={ `card card__${feed.name.toLowerCase().replace(' ', '-') }`}>
+      <StyledLinearProgress color="secondary" className={`card__loading fade fadeIn ${ !isLoading ? 'fadeOut' : ''}`} />
       <StyledHighlightOffIcon onClick={ props.handleClose }  />
         <h2>
         { feed.name + (feed.icon ? feed.icon : '') }

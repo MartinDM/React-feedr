@@ -1,20 +1,35 @@
 import React, { useState, useEffect } from 'react';
 
 import "./Header.scss";
+import { FlameIcon } from "../svgs/svgs";
+
 /* MUI Components */
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
+import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import Weather from './Weather';
 import Logo from './Logo';
+
+const useStyles = makeStyles({
+  root: {
+    background: 'white', 
+    color: 'black',
+    padding: '10px',
+    border: `2px solid #FC60A8`
+  },
+});
 
 export default function Header({feeds, handleAdd}){   
   
   const [id, setSelectedId] = useState();
   const [isClean, setClean] = useState(true);
+  const [activeFeed, setActiveFeed ] = useState()
 
+  // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => { 
     setClean(id ? false : true);
   });
@@ -59,7 +74,7 @@ export default function Header({feeds, handleAdd}){
           }>
             <AddIcon /></button>
         </div>
-          <Grid item>
+          <Grid item className="weather-container">
             <Weather /> 
           </Grid>
           <Grid item className="header__logo">

@@ -1,6 +1,14 @@
 @import '../scss/variables.scss';
 
 .weather  {  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &-container {
+    min-height: 120px;
+    display: flex;
+  }
+  display: flex;
   margin-bottom: 12px;
   &--failed {
     display: flex;

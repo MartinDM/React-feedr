@@ -77,7 +77,7 @@ const Weather = (props) => {
   } 
 
   return (
-    <div class="weather">
+    <div className="weather">
     { !isLoaded ? 
       <StyledWeather className="weather--failed">
          <p>{ weatherMessage }</p> 

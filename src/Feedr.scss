@@ -71,11 +71,14 @@
   } 
 }
 
-.card {
-  opacity: 0; 
-  transition: opacity 0.2s 0.2s ease-in;
+
+// Effects
+.fade, .fadeIn {
+  opacity: 1;
+  transition: all 0.5s ease-in;
 }
 
-.fadeIn {
-  opacity: 1;
+.fadeOut {
+  opacity: 0;
+  height: 0;
 }

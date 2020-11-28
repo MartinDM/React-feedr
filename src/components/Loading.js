@@ -5,7 +5,7 @@ import "./Loading.scss";
 
 export default function Loading (){   
   return ( 
-      <div class="loading-content">
+      <div className="loading-content">
         <Logo />
         <ThreeDots />
       </div>
