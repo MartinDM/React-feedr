@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import ReloadIcon from '@material-ui/icons/Cached';
 import "./Weather.scss";
-const CORS_PROXY='https://cors-anywhere.herokuapp.com/';
 
 const Weather = (props) => {
   
@@ -20,12 +19,11 @@ const Weather = (props) => {
   img { padding: 0 14px; padding-right: 14px; height: 65px; }
   `
 
-  /*  Hooks and vars */
-  const [ weather, setWeather ] = useState({})
-  let [ position, setPosition ] = useState({})
-  const [ isLoaded, setLoaded ] = useState(false)
+  /*  Hooks */
+  const [ weather, setWeather ] = useState();
+  const [ isLoaded, setLoaded ] = useState(false);
   const [ apiFailed, setApiFailed ] = useState(false);
-  let weatherMessage = 'Fetching weather...';
+  const [ weatherMessage, setWeatherMessage ] = useState('Fetching weather...');
   let reloadButton;
 
   useEffect( () => {
@@ -39,13 +37,9 @@ const Weather = (props) => {
   }
 
   const fetchWeather = async () => {
-    position = await getPosition();
-    setPosition(position);
-    setApiFailed(false);
-    const isDevelopment = process.env.NODE_ENV === 'development';
+    const position = await getPosition();
     const { latitude, longitude } = position.coords;
-    // Use a proxy for CORS when running locally
-    const weatherUrl = `${isDevelopment ? CORS_PROXY : '' }https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_KEY}&units=metric`;
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_KEY}&units=metric`;
     try {
        await axios({
         url: weatherUrl,
@@ -55,12 +49,11 @@ const Weather = (props) => {
         const weather = res.data;
         weather.formattedTime = moment.unix(weather.dt).startOf('minute').fromNow();
         weather.icon = `http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
+        setApiFailed(false);
         setWeather(weather);
-        setLoaded(true);
       })
     } catch (err) {
       setApiFailed(true);
-      return;
     }
     setLoaded(true);
   };
@@ -73,11 +66,11 @@ const Weather = (props) => {
   /* Create reload button and message if Weather API response failed */
   if (apiFailed) {
     reloadButton = <ReloadIcon onClick={ () =>  handleReload() } />
-    weatherMessage = 'Weather is unavailable right now';
+    setWeatherMessage('Weather is unavailable right now');
   } 
 
   return (
-    <div class="weather">
+    <div className="weather">
     { !isLoaded ? 
       <StyledWeather className="weather--failed">
          <p>{ weatherMessage }</p> 
