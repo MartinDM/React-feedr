@@ -10,7 +10,15 @@ const Card = (props) => {
   const feed = props.feed;
   const isCategory = feed.hasOwnProperty('category');
 
-  // Styled component
+  const StyledScore = styled.span`
+  background: #e8e8e8;
+  color: #333333;
+  border-radius: 2px;
+  padding: 4px 5px;
+  font-size: 11px;
+  display: inline-block;
+  margin: 3px; 
+  `
   const Card = styled.div`
   box-shadow: -2px 7px #afafaf, inset 0px -8px 4px rgba(255,255,255, .7);
   border: 3px solid lightgrey;
@@ -34,7 +42,7 @@ const Card = (props) => {
       opacity: 0;
       li {
         margin-bottom: 4px;
-        a:first-child {
+        a  {
           text-decoration: none;
           font-weight: bold;
           color: #333;
@@ -46,7 +54,6 @@ const Card = (props) => {
           padding: 4px;
           &:hover {
             background-size: 100%;
-            
           }
         }
       }
@@ -72,42 +79,66 @@ const Card = (props) => {
     &.fadeOut { 
       opacity: 0;
     }
-  ` 
-  
-  useEffect((  ) => {
-    // Form url based on category key on feed
-    const sourceUrl = isCategory ?
-                      `country=gb&category=${feed.category}` :
-                      `sources=${feed.source}`
+  `
+
+  useEffect( () => {
+    // Construct post structure from fetched data
+    if ( feed.source === "reddit" ){ 
     axios
       .get(
-        `https://newsapi.org/v2/top-headlines?${sourceUrl}&apiKey=${process.env.REACT_APP_NEWS_KEY}`
+        `https://www.reddit.com/r/reactjs.json?count=50`,
+      )
+      .then( ( response ) => {
+        const stories = response.data.data.children.map( story => {
+          const { title, url, score } = story.data;
+          return { name: title, url, score };
+        })
+        setTimeout( () => {
+          setPosts(stories);
+          setIsLoading(false);
+        }, 800)
+      });
+      return
+    } else {
+    // Form url based on category key on feed
+    const categoryQuery = isCategory ? `?category=${feed.category}` : ``;
+    axios
+      .get(
+        `https://api.cognitive.microsoft.com/bing/v7.0/news/${categoryQuery}`,
+        {
+          headers: {
+            'ocp-apim-subscription-key': `${process.env.REACT_APP_NEWS_KEY}`
+          }
+        }
       )
       .then( ({ data } ) => {
-        console.log(data.articles);
         setTimeout( () => {
-          setPosts(data.articles);
+          setPosts(data.value);
           setIsLoading(false)
         }, 800)
       });
+      return;
+    }
   }, []);
- 
-   
 
   return (
-      <Card className={ `fadeIn card__${feed.name.toLowerCase().replace(' ', '-') }`}>
+      <Card data-testid="card" className={ `fadeIn card__${feed.name.toLowerCase().replace(' ', '-') }`}>
       <StyledLinearProgress color="secondary" className={ !isLoading ? 'fadeOut' : '' } />
       <StyledHighlightOffIcon onClick={ props.handleClose }  />
         <h2>
-        { feed.name }
+        { feed.name + (feed.icon ? feed.icon : '') }
         </h2> 
         <ul className={ !isLoading ? 'fadeIn' : 'fadeOut'}>  
         { 
           posts.map( (post, i) => (
-            <li key={i} title={post.name}>
-              <a href={ post.url } target="_blank">
-              { post.title }
-              </a>
+            <li key={i}>
+            { post.score ? (
+              <StyledScore>🔥{post.score} </StyledScore>
+            ) : ''
+            }
+            <a href={ post.url } target="_blank">
+              { post.name }
+            </a> 
             </li> 
           ))
         }
