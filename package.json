@@ -19,7 +19,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-dnd": "^10.0.2",
     "react-dom": "^16.11.0",
-    "react-scripts": "^3.3.0",
+    "react-scripts": "^5.0.1",
     "react-select": "^3.1.0",
     "selenium-webdriver": "^4.0.0-alpha.7",
     "styled-components": "^5.0.1",
