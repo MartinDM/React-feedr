@@ -1,5 +1,8 @@
 ![image](https://user-images.githubusercontent.com/7467069/150639333-5a0cb20d-f936-419c-b818-734f0657309b.png)
 
+## Full disclosure - No longer maintained 🚧
+This app is may not be functioning fully as relies on APIs which may have changed over time and no longer represnts how I'd approach an app these days. Left up for posterity, and is a signpost to me, of my progress over the years and how my design decisions evolve.
+
 ## Feedr
 A playful app for learning and consuming APIs for Weather and News!
 
